@@ -1,16 +1,18 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
+const express = require("express");
 const app = express();
 
-var cors = require('cors');
+const cors = require("cors");
 
-const auth = require('./routes/auth');
-const api = require('./routes/api');
+const auth = require("./routes/auth");
+const api = require("./routes/api");
 
+app.use(express.json());
 app.use(cors());
-app.use('/auth', auth);
-app.use('/api/v1', api);
+
+app.use("/auth", auth);
+app.use("/api/v1", api);
 
 const port = process.env.PORT || 5001;
 
