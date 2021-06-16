@@ -1,21 +1,87 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const db = require("../db/db");
+const db = require('../db');
+const bcrypt = require('bcrypt');
+const jwtGet = require('../utils/jwtGet');
+const authorization = require('../middleware/authorization');
 
-//login route
-router.post("/", async (req, res) => {
+// - /auth - route
+
+//Register endpoint
+router.post('/register', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    //check if user exists in db
-    const response = await db.query(
-      "SELECT email FROM users WHERE email = $1",
+    //Check if user('s email) exists in db
+    const checkUser = await db.query(
+      'SELECT email FROM users WHERE email = $1',
       [email]
     );
-    if (response.rows[0]) {
-      res.status(401).json("User already exists");
+    //Status 401 if user already exists
+    if (checkUser.rows[0]) {
+      res.status(401).json('User already exists');
     }
-    res.json("user does NOT exist");
+
+    //Else if user does not exist, generate hash
+    const saltRounds = 12;
+    const hash = await bcrypt.hash(password, saltRounds);
+
+    //Insert user's email and hash into db
+    const insertUser = await db.query(
+      'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id',
+      [email, hash]
+    );
+
+    //Generate jwt token and include in response object
+    const token = jwtGet(insertUser.rows[0].id);
+    res.json({ token });
+
+    //
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+//Login endpoint
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    //Check if user('s email) exists in db
+    const checkUser = await db.query('SELECT * FROM users WHERE email = $1', [
+      email,
+    ]);
+
+    //Status 401 if user does not exist in db
+    if (!checkUser.rows[0]) {
+      res.status(401).json('Email or password incorrect');
+    }
+
+    //If user does exist, check password against hash in db
+    const checkPassword = await bcrypt.compare(
+      password,
+      checkUser.rows[0].password
+    );
+
+    //If password incorrect, status 401
+    if (!checkPassword) {
+      res.status(401).json('Email or password incorrect');
+    }
+
+    //If password is correct, generate jwt token and return in response
+    const token = jwtGet(checkUser.rows[0].id);
+    res.json({ token });
+
+    //
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+//Auth check endpoint, for frontend refresh
+router.get('/check', authorization, async (req, res) => {
+  try {
+    res.json(true);
   } catch (error) {
     console.log(error.message);
   }
