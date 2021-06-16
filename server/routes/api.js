@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const authorization = require('../middleware/authorization');
 
 //route '/api/v1'
-router.get('/', async (req, res) => {
+router.get('/', authorization, async (req, res) => {
   try {
     const { id, title } = req.query;
 
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
         method: 'get',
         url: `http://omdbapi.com/?apikey=${process.env.apiKey}&i=${id}`,
       });
-      console.log(response.data);
+
       res.json(response.data);
     }
     //call to api for movie info by title
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
         method: 'get',
         url: `http://omdbapi.com/?apikey=${process.env.apiKey}&t=${title}`,
       });
-      console.log(response.data);
+
       res.json(response.data);
     }
   } catch (error) {

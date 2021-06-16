@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
     );
     //Status 401 if user already exists
     if (checkUser.rows[0]) {
-      res.status(401).json('User already exists');
+      return res.status(401).json('User already exists');
     }
 
     //Else if user does not exist, generate hash
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
 
     //Status 401 if user does not exist in db
     if (!checkUser.rows[0]) {
-      res.status(401).json('Email or password incorrect');
+      return res.status(401).json('Email or password incorrect');
     }
 
     //If user does exist, check password against hash in db
@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
 
     //If password incorrect, status 401
     if (!checkPassword) {
-      res.status(401).json('Email or password incorrect');
+      return res.status(401).json('Email or password incorrect');
     }
 
     //If password is correct, generate jwt token and return in response
