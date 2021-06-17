@@ -1,1 +1,9 @@
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
+.loginPage {
+  height: 100vh;
+}
+
+.loginCard {
+  width: 396px;
+}
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";

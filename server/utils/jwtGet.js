@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 //Generates jwt token, takes user's id and inserts it into payload
 const jwtGet = (user_id) => {
@@ -6,7 +6,7 @@ const jwtGet = (user_id) => {
     user_id,
   };
 
-  return jwt.sign(payload, process.env.jwtKey, { expiresIn: '1h' });
+  return jwt.sign(payload, process.env.jwtKey, { expiresIn: "1h" });
 };
 
 module.exports = jwtGet;
