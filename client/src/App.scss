@@ -1,9 +1,18 @@
 .loginCard {
-  width: 396px;
+  width: 450px;
+  height: 600px;
 }
 
 .loginTitle {
   font-family: 'Ubuntu', sans-serif;
+}
+
+.signup {
+  text-decoration: none;
+}
+
+html .registerWidth {
+  width: 300px;
 }
 
 #loginModalHeader {

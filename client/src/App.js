@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Login from "./components/Login";
-import Home from "./components/Home";
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Home from './components/Home';
 
-import { authTrue, authFalse } from "./redux/authSlice";
+import { authTrue, authFalse } from './redux/authSlice';
 
-import "./App.scss";
+import './App.scss';
 
 const App = () => {
   const auth = useSelector((state) => state.auth.auth);
@@ -34,11 +35,14 @@ const App = () => {
           Logout
         </button>
       </div> */}
-      <div className="">
+      <div className=''>
         <Switch>
-          <Route exact path="/search"></Route>
-          <Route path="/">
-            {auth ? <Home /> : <Login />} <Redirect to="/" />
+          <Route exact path='/search'></Route>
+          <Route exact path='/signup'>
+            <Signup />
+          </Route>
+          <Route path='/'>
+            {auth ? <Home /> : <Login />} <Redirect to='/' />
           </Route>
         </Switch>
       </div>
