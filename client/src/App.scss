@@ -1,9 +1,15 @@
-.loginPage {
-  height: 100vh;
-}
-
 .loginCard {
   width: 396px;
 }
 
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+.loginTitle {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+#loginModalHeader {
+  padding: 1rem 1rem 0 1rem;
+}
+
+$body-bg: #f8f9fa;
+
+@import '~bootstrap/scss/bootstrap';
