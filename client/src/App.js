@@ -13,7 +13,7 @@ import Home from './components/Home';
 
 import { authTrue, authFalse } from './redux/authSlice';
 
-import './App.scss';
+import './App.css';
 
 const App = () => {
   const auth = useSelector((state) => state.auth.auth);
@@ -21,20 +21,6 @@ const App = () => {
 
   return (
     <Router>
-      {/*  <div className="btn-group">
-        <button
-          className="btn btn-primary"
-          onClick={() => dispatch(authTrue())}
-        >
-          Login
-        </button>
-        <button
-          className="btn btn-danger"
-          onClick={() => dispatch(authFalse())}
-        >
-          Logout
-        </button>
-      </div> */}
       <div className=''>
         <Switch>
           <Route exact path='/search'></Route>
