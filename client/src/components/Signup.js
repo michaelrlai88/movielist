@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authTrue } from '../redux/authSlice';
-import Signup from './Signup';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -60,7 +59,7 @@ const ErrorContainer = styled.div`
   font-size: 14px;
 `;
 
-const Login = () => {
+const Signup = () => {
   const dispatch = useDispatch();
 
   const [input, setInput] = useState({
@@ -68,7 +67,9 @@ const Login = () => {
     password: '',
   });
 
-  const [errorMessages, setErrorMessages] = useState();
+  const [emailError, setEmailError] = useState();
+
+  const [passwordError, setPasswordError] = useState();
 
   const { email, password } = input;
 
@@ -78,6 +79,8 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setEmailError();
+    setPasswordError();
 
     try {
       const response = await axios({
@@ -95,7 +98,15 @@ const Login = () => {
       }
     } catch (error) {
       const { errors } = error.response.data;
-      setErrorMessages(errors);
+
+      errors.forEach((err) => {
+        if (err.param === 'email') {
+          setEmailError(err.msg);
+        }
+        if (err.param === 'password') {
+          setPasswordError(err.msg);
+        }
+      });
     }
   };
 
@@ -109,33 +120,17 @@ const Login = () => {
             name='email'
             placeholder='Email'
             onChange={onChange}
+            error={emailError}
           />
-          <ErrorContainer>
-            {errorMessages
-              ? errorMessages.map((errorMessage, index) => {
-                  if (errorMessage.param === 'email') {
-                    return <div key={index + 'email'}>{errorMessage.msg}</div>;
-                  }
-                })
-              : null}
-          </ErrorContainer>
+          <ErrorContainer>{emailError}</ErrorContainer>
           <PasswordInput
             type='password'
             name='password'
             placeholder='Password'
             onChange={onChange}
+            error={passwordError}
           />
-          <ErrorContainer>
-            {errorMessages
-              ? errorMessages.map((errorMessage, index) => {
-                  if (errorMessage.param === 'password') {
-                    return (
-                      <div key={index + 'password'}>{errorMessage.msg}</div>
-                    );
-                  }
-                })
-              : null}
-          </ErrorContainer>
+          <ErrorContainer>{passwordError}</ErrorContainer>
           <SignupButton onClick={onSubmit}>Sign up</SignupButton>
         </form>
       </FormContainer>
@@ -143,4 +138,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

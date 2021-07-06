@@ -38,7 +38,10 @@ export const Input = styled.input`
   border: 1px solid lightgrey;
   margin-top: 20px;
 
+  ${(props) => (props.error ? 'border: 1px solid red' : null)};
+
   &:focus {
     border: 1px solid #1e9c84;
+    ${(props) => (props.error ? 'border: 1px solid red' : null)};
   }
 `;
