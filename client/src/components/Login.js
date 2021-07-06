@@ -1,99 +1,135 @@
-import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authTrue } from '../redux/authSlice';
-import Register from './Signup';
 import styled from 'styled-components';
+import axios from 'axios';
+
+import { breakpoints, colors, Button, Input } from '../Theme';
+
+const { sm, md, lg } = breakpoints;
+const { darkgrey, darkteal, teal } = colors;
 
 const Container = styled.div`
-  background-color: #f1f1f1;
-  padding: 100px 10px 0 10px;
-  height: 100vh;
-`;
-
-const Card = styled.div`
-  max-width: 400px;
-  background-color: white;
-  margin: 0 auto;
-  padding: 80px 40px 80px 40px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px lightgray;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  color: seagreen;
-  font-size: 36px;
-  font-weight: 700;
+  ${md} {
+    padding: 100px 0 0 0;
+  }
 `;
 
 const FormContainer = styled.div`
-  margin: 30px auto 0 auto;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 60px 30px 60px 30px;
+  ${md} {
+    border: 1px solid lightgrey;
+  }
 `;
 
-const Input = styled.input`
-  display: block;
-  margin: 0 auto;
-  width: 100%;
+const Logo = styled.h1`
+  text-align: center;
+  color: ${teal};
+  margin-bottom: 30px;
+`;
+
+const LoginText = styled.div`
+  text-align: center;
+  color: ${darkgrey};
   margin-bottom: 20px;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  padding: 10px;
-
-  &:focus {
-    outline: none;
-    border: 1px solid #b4b4b4;
-  }
 `;
 
-const Submit = styled.button`
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: dodgerblue;
-  color: white;
+const EmailInput = styled(Input)`
+  margin-top: 20px;
   width: 100%;
-  display: block;
-  margin: 0 auto;
-  font-size: 15px;
-
-  &:hover {
-    cursor: pointer;
-    background-color: #005fbe;
-  }
 `;
 
-const SignUpContainer = styled.div`
-  display: flex;
-  justify-content: center;
+const PasswordInput = styled(Input)`
+  width: 100%;
+`;
+
+const LoginButton = styled(Button)`
+  width: 100%;
+`;
+
+const Or = styled.div`
+  text-align: center;
+  color: ${darkgrey};
+  font-size: 12px;
   margin-top: 20px;
 `;
 
-const SignUpLink = styled.a`
-  text-decoration: none;
-  color: dodgerblue;
-  margin: 0 auto;
+const SignupButton = styled(Button)`
+  width: 100%;
+  background-color: white;
+  color: ${teal};
+  border: 1px solid ${teal};
+
+  &:hover {
+    color: white;
+    border: 1px solid ${darkteal};
+  }
 `;
 
 const Login = () => {
-  const [input, setInput] = useState();
   const dispatch = useDispatch();
+
+  const [input, setInput] = useState({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = input;
+
+  const onChange = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:5000/auth/login',
+      data: {
+        email,
+        password,
+      },
+    });
+
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      dispatch(authTrue());
+    }
+
+    try {
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <Container>
-      <Card>
-        <Title>movielist</Title>
-        <FormContainer>
-          <form>
-            <Input type='email' placeholder='Email' />
-            <Input type='password' placeholder='Password' />
-            <Submit>Log in</Submit>
-          </form>
-        </FormContainer>
-        <SignUpContainer>
-          <SignUpLink href='/'> Sign up</SignUpLink>
-        </SignUpContainer>
-      </Card>
+      <FormContainer>
+        <Logo>movielist</Logo>
+        <LoginText>Log in</LoginText>
+        <form>
+          <EmailInput
+            type='email'
+            name='email'
+            placeholder='Email'
+            onChange={onChange}
+          />
+          <PasswordInput
+            type='password'
+            name='password'
+            placeholder='Password'
+            onChange={onChange}
+          />
+          <LoginButton onClick={onSubmit}>Log in</LoginButton>
+        </form>
+        <Or>Don't have an account?</Or>
+        <Link to='/signup'>
+          <SignupButton>Sign up</SignupButton>
+        </Link>
+      </FormContainer>
     </Container>
   );
 };

@@ -1,4 +1,5 @@
 const express = require('express');
+const { body, validationResult } = require('express-validator');
 const router = express.Router();
 const db = require('../db');
 const bcrypt = require('bcrypt');
@@ -8,39 +9,52 @@ const authorization = require('../middleware/authorization');
 // - /auth - route
 
 //Register endpoint
-router.post('/register', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+router.post(
+  '/signup',
+  body('email').isEmail().withMessage('Please enter a valid email address'),
+  body('password')
+    .isLength({ min: 3 })
+    .withMessage('Please enter a valid password'),
+  async (req, res) => {
+    const errors = validationResult(req);
 
-    //Check if user('s email) exists in db
-    const checkUser = await db.query(
-      'SELECT email FROM users WHERE email = $1',
-      [email]
-    );
-    //Status 401 if user already exists
-    if (checkUser.rows[0]) {
-      return res.status(401).json('User already exists');
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    //Else if user does not exist, generate hash
-    const saltRounds = 12;
-    const hash = await bcrypt.hash(password, saltRounds);
+    try {
+      const { email, password } = req.body;
 
-    //Insert user's email and hash into db
-    const insertUser = await db.query(
-      'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id',
-      [email, hash]
-    );
+      //Check if user('s email) exists in db
+      const checkUser = await db.query(
+        'SELECT email FROM users WHERE email = $1',
+        [email]
+      );
+      //Status 401 if user already exists
+      if (checkUser.rows[0]) {
+        return res.status(401).json('User already exists');
+      }
 
-    //Generate jwt token and include in response object
-    const token = jwtGet(insertUser.rows[0].id);
-    res.json({ token });
+      //Else if user does not exist, generate hash
+      const saltRounds = 12;
+      const hash = await bcrypt.hash(password, saltRounds);
 
-    //
-  } catch (error) {
-    console.log(error.message);
+      //Insert user's email and hash into db
+      const insertUser = await db.query(
+        'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id',
+        [email, hash]
+      );
+
+      //Generate jwt token and include in response object
+      const token = jwtGet(insertUser.rows[0].id);
+      res.json({ token });
+
+      //
+    } catch (error) {
+      console.log(error.message);
+    }
   }
-});
+);
 
 //Login endpoint
 router.post('/login', async (req, res) => {

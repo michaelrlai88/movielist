@@ -1,10 +1,24 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../db');
 const axios = require('axios');
 const authorization = require('../middleware/authorization');
 
 //route '/api/v1'
+
 router.get('/', authorization, async (req, res) => {
+  try {
+    const response = await db.query('SELECT email FROM users where id = $1', [
+      req.user_id,
+    ]);
+
+    res.json(response.rows[0]);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+router.get('/search', authorization, async (req, res) => {
   try {
     const { id, title } = req.query;
 

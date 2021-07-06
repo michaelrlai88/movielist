@@ -1,17 +1,51 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { authFalse } from "../redux/authSlice";
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { authFalse } from '../redux/authSlice';
+import styled from 'styled-components';
+import axios from 'axios';
+
+import { breakpoints, colors, Button, Input } from '../Theme';
+
+const { sm, md, lg } = breakpoints;
+const { darkgrey, darkteal, teal } = colors;
+
+const Container = styled.div``;
+
+const LogoutButton = styled(Button)``;
 
 const Home = () => {
+  const [email, setEmail] = useState('');
   const dispatch = useDispatch();
 
+  const logOut = (e) => {
+    dispatch(authFalse());
+    localStorage.removeItem('token');
+  };
+
+  useEffect(() => {
+    const getInfo = async () => {
+      try {
+        const response = await axios({
+          method: 'get',
+          url: 'http://localhost:5000/api/v1',
+          headers: { token: localStorage.token },
+        });
+
+        const { email } = response.data;
+        setEmail(email);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    getInfo();
+  });
+
   return (
-    <div>
-      <h1>Home page</h1>
-      <button className="btn btn-danger" onClick={() => dispatch(authFalse())}>
-        Login
-      </button>
-    </div>
+    <Container>
+      <div>{email}</div>
+      <h2>Your movies</h2>
+    </Container>
   );
 };
 
