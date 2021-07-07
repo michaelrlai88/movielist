@@ -4,16 +4,14 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { authFalse } from '../redux/authSlice';
-import { breakpoints, colors, Button, Input } from '../Theme';
+import { breakpoints, Button, Input } from '../Theme';
 
 const { sm, md, lg } = breakpoints;
-const { darkgrey, teal } = colors;
 
 const Container = styled.div`
-  padding: 0px 10px 0 10px;
+  padding: 0px 15px 0 15px;
 
-  background-color: white;
-  border-bottom: 1px solid lightgrey;
+  background-color: ${({ theme }) => theme.nav};
 
   ${md} {
     padding: 0 30px;
@@ -32,14 +30,16 @@ const Content = styled.div`
 
   ${lg} {
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1350px;
   }
 `;
 
 const Logo = styled.h1`
+  font-size: 20px;
+
   a {
     text-decoration: none;
-    color: ${teal};
+    color: ${({ theme }) => theme.logo};
   }
 
   ${md} {
@@ -53,19 +53,19 @@ const Links = styled.div`
   a {
     margin: 0 10px;
     text-decoration: none;
-    color: ${darkgrey};
+    color: ${({ theme }) => theme.text};
   }
 `;
 
 const Login = styled.div`
   a:hover {
-    color: ${teal};
+    color: ${({ theme }) => theme.logo};
   }
 `;
 
 const Signup = styled.div`
   a:hover {
-    color: ${teal};
+    color: ${({ theme }) => theme.logo};
   }
 `;
 

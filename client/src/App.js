@@ -19,13 +19,12 @@ import { authTrue, authFalse } from './redux/authSlice';
 
 import './App.css';
 
-import { breakpoints, colors, Button, Input } from './Theme';
+import { GlobalStyle, breakpoints, Button, Input } from './Theme';
 
 const { sm, md, lg } = breakpoints;
-const { darkgrey, teal } = colors;
 
 const Container = styled.div`
-  padding: 0px 10px 0 10px;
+  padding: 0px 15px 0 15px;
 
   ${md} {
     padding: 0px 30px 0 30px;
@@ -37,15 +36,8 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  ${lg} {
-    margin: 0 auto;
-    max-width: 1200px;
-  }
-`;
-
-const RoutesContent = styled.div`
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1350px;
 `;
 
 const App = () => {

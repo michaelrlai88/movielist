@@ -5,7 +5,7 @@ import { authTrue } from '../redux/authSlice';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import { breakpoints, Button, Input } from '../Theme';
+import { theme, breakpoints, Button, Input } from '../Theme';
 
 const { sm, md, lg } = breakpoints;
 
@@ -51,11 +51,20 @@ const PasswordInput = styled(Input)`
 const SignupButton = styled(Button)`
   padding: 15px;
   width: 100%;
+
+  background-color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.buttonText};
+  border: 1px solid ${({ theme }) => theme.secondary};
+
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.secondaryDark};
+    background-color: ${({ theme }) => theme.secondaryDark};
+  }
 `;
 
 const ErrorContainer = styled.div`
   text-align: center;
-  color: red;
+  color: ${({ theme }) => theme.error};
   font-size: 14px;
 `;
 

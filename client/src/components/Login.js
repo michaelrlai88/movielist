@@ -5,10 +5,9 @@ import { authTrue } from '../redux/authSlice';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import { breakpoints, colors, Button, Input } from '../Theme';
+import { breakpoints, Button, Input } from '../Theme';
 
 const { sm, md, lg } = breakpoints;
-const { darkgrey, darkteal, teal } = colors;
 
 const Container = styled.div`
   ${md} {
@@ -17,28 +16,31 @@ const Container = styled.div`
 `;
 
 const FormContainer = styled.div`
-  max-width: 450px;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 60px 30px 60px 30px;
+  padding: 60px 50px 60px 50px;
   ${md} {
-    border: 1px solid lightgrey;
   }
 `;
 
 const Logo = styled.h1`
   text-align: center;
-  color: ${teal};
   margin-bottom: 30px;
+
+  a {
+    text-decoration: none;
+    color: ${({ theme }) => theme.logo};
+  }
 `;
 
 const LoginText = styled.div`
   text-align: center;
-  color: ${darkgrey};
+  color: ${({ theme }) => theme.secondaryText};
   margin-bottom: 20px;
 `;
 
 const EmailInput = styled(Input)`
-  margin-top: 20px;
+  margin-top: 35px;
   width: 100%;
 `;
 
@@ -52,20 +54,21 @@ const LoginButton = styled(Button)`
 
 const Or = styled.div`
   text-align: center;
-  color: ${darkgrey};
+  color: ${({ theme }) => theme.secondaryText};
   font-size: 12px;
-  margin-top: 20px;
+  margin-top: 35px;
 `;
 
 const SignupButton = styled(Button)`
+  margin-top: 35px;
   width: 100%;
-  background-color: white;
-  color: ${teal};
-  border: 1px solid ${teal};
+  background-color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.buttonText};
+  border: 1px solid ${({ theme }) => theme.secondary};
 
   &:hover {
-    color: white;
-    border: 1px solid ${darkteal};
+    border: 1px solid ${({ theme }) => theme.secondaryDark};
+    background-color: ${({ theme }) => theme.secondaryDark};
   }
 `;
 
@@ -108,7 +111,9 @@ const Login = () => {
   return (
     <Container>
       <FormContainer>
-        <Logo>movielist</Logo>
+        <Logo>
+          <Link to='/'>movielist</Link>
+        </Logo>
         <LoginText>Log in</LoginText>
         <form>
           <EmailInput

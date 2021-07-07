@@ -4,10 +4,9 @@ import { authFalse } from '../redux/authSlice';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import { breakpoints, colors, Button, Input } from '../Theme';
+import { breakpoints, Button, Input } from '../Theme';
 
 const { sm, md, lg } = breakpoints;
-const { darkgrey, darkteal, teal } = colors;
 
 const Container = styled.div``;
 
