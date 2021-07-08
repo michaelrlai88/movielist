@@ -23,11 +23,13 @@ import { GlobalStyle, breakpoints, Button, Input } from './Theme';
 
 const { sm, md, lg } = breakpoints;
 
-const Container = styled.div`
-  padding: 0px 15px 0 15px;
+const OuterContainer = styled.div``;
+
+const InnerContainer = styled.div`
+  padding: 0px 20px 0 20px;
 
   ${md} {
-    padding: 0px 30px 0 30px;
+    padding: 0px 40px 0 40px;
   }
 
   ${lg} {
@@ -69,18 +71,20 @@ const App = () => {
           {auth ? <Redirect to='/' /> : <Login />}
         </Route>
         <Route>
-          <Nav />
-          <Container>
-            <Content>
-              <Route exact path='/signup'>
-                {auth ? <Redirect to='/' /> : <Signup />}
-              </Route>
-              <Route exact path='/search'></Route>
-              <Route exact path='/'>
-                {auth ? <Home /> : <Landing />}
-              </Route>
-            </Content>
-          </Container>
+          <OuterContainer>
+            <Nav />
+            <InnerContainer>
+              <Content>
+                <Route exact path='/signup'>
+                  {auth ? <Redirect to='/' /> : <Signup />}
+                </Route>
+                <Route exact path='/search'></Route>
+                <Route exact path='/'>
+                  {auth ? <Home /> : <Landing />}
+                </Route>
+              </Content>
+            </InnerContainer>
+          </OuterContainer>
         </Route>
       </Switch>
     </Router>

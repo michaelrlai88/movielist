@@ -9,12 +9,15 @@ import { breakpoints, Button, Input } from '../Theme';
 const { sm, md, lg } = breakpoints;
 
 const Container = styled.div`
-  padding: 0px 15px 0 15px;
+  position: sticky;
+  top: 0;
+
+  padding: 0px 20px 0 20px;
 
   background-color: ${({ theme }) => theme.nav};
 
   ${md} {
-    padding: 0 30px;
+    padding: 0 40px;
   }
 
   ${lg} {
