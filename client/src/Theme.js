@@ -60,6 +60,23 @@ export const Button = styled.button`
   }
 `;
 
+export const SecondaryButton = styled.button`
+  font-size: 16px;
+  padding: 10px 25px;
+  border-radius: 3px;
+  border: none;
+  background-color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.buttonText};
+  margin-top: 20px;
+  border: 1px solid ${({ theme }) => theme.secondary};
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${({ theme }) => theme.secondaryDark};
+    border: 1px solid ${({ theme }) => theme.secondaryDark};
+  }
+`;
+
 export const Input = styled.input`
   background-color: ${({ theme }) => theme.input};
   color: ${({ theme }) => theme.text};
