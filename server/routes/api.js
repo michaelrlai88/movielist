@@ -18,7 +18,7 @@ router.get('/', authorization, async (req, res) => {
   }
 });
 
-router.get('/search', authorization, async (req, res) => {
+router.get('/search', async (req, res) => {
   try {
     const { id, title } = req.query;
 

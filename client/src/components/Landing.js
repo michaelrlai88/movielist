@@ -39,7 +39,7 @@ const Landing = () => {
       <Content>
         <Banner>
           <BannerText>
-            <Text>Watch movies now, save the rest for later</Text>
+            <Text>Watch movies now, save some for later</Text>
             <Link to='/signup'>
               <TryButton>Try it now</TryButton>
             </Link>

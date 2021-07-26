@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -76,7 +76,7 @@ const Search = styled(Input)`
   border-radius: 3px 0 0 3px;
 
   ${md} {
-    margin: 0 0 0 20px;
+    margin: 0 0 0 30px;
     padding: 5px;
     flex: 1;
     border-radius: 3px 0 0 3px;
@@ -89,7 +89,7 @@ const SearchSubmit = styled(SecondaryButton)`
   border-radius: 0 3px 3px 0;
 
   ${md} {
-    margin: 0 20px 0 0;
+    margin: 0 30px 0 0;
     padding: 5px 10px;
     border-radius: 0 3px 3px 0;
   }
@@ -129,10 +129,19 @@ const Logout = styled.div`
 const Nav = () => {
   const auth = useSelector((state) => state.auth.auth);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [searchInput, setSearchInput] = useState();
 
   const logOut = (e) => {
     dispatch(authFalse());
     localStorage.removeItem('token');
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    history.push(`/search?title=${searchInput}`);
   };
 
   return (
@@ -142,8 +151,11 @@ const Nav = () => {
           <Link to='/'>movielist</Link>
         </Logo>
         <form>
-          <Search placeholder='Search' />
-          <SearchSubmit>
+          <Search
+            placeholder='Search'
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <SearchSubmit onClick={handleClick}>
             <i class='fas fa-search'></i>
           </SearchSubmit>
         </form>

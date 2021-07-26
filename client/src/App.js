@@ -14,6 +14,7 @@ import Landing from './components/Landing';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Home from './components/Home';
+import Search from './components/Search';
 
 import { authTrue, authFalse } from './redux/authSlice';
 
@@ -78,7 +79,9 @@ const App = () => {
                 <Route exact path='/signup'>
                   {auth ? <Redirect to='/' /> : <Signup />}
                 </Route>
-                <Route exact path='/search'></Route>
+                <Route exact path='/search'>
+                  <Search />
+                </Route>
                 <Route exact path='/'>
                   {auth ? <Home /> : <Landing />}
                 </Route>
