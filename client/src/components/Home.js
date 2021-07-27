@@ -42,8 +42,8 @@ const Home = () => {
 
   return (
     <Container>
-      <div>{email}</div>
-      <h2>Your movies</h2>
+      {/* <div>{email}</div> */}
+      <h2>My Movies</h2>
     </Container>
   );
 };

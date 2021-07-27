@@ -8,10 +8,9 @@ import { breakpoints, Button, Input, SecondaryButton } from '../Theme';
 
 const { sm, md, lg } = breakpoints;
 
-const Container = styled.div`
+const OuterContainer = styled.div`
   position: sticky;
   top: 0;
-
   padding: 0px 20px 0 20px;
 
   background-color: ${({ theme }) => theme.nav};
@@ -39,10 +38,10 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1200px;
 
   ${lg} {
-    margin: 0 auto;
-    max-width: 1350px;
   }
 
   form {
@@ -118,9 +117,14 @@ const Signup = styled.div`
   }
 `;
 
-const Logout = styled.div`
-  margin: auto;
+const MyMovies = styled.div`
+  margin-right: 20px;
+  a:hover {
+    color: ${({ theme }) => theme.logo};
+  }
+`;
 
+const Logout = styled.div`
   a:hover {
     color: ${({ theme }) => theme.logo};
   }
@@ -131,7 +135,7 @@ const Nav = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [searchInput, setSearchInput] = useState();
+  const [searchInput, setSearchInput] = useState('');
 
   const logOut = (e) => {
     dispatch(authFalse());
@@ -140,12 +144,14 @@ const Nav = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-
-    history.push(`/search?title=${searchInput}`);
+    if (searchInput !== '') {
+      history.push(`/search?title=${searchInput}`);
+      setSearchInput('');
+    }
   };
 
   return (
-    <Container>
+    <OuterContainer>
       <Content>
         <Logo>
           <Link to='/'>movielist</Link>
@@ -154,6 +160,7 @@ const Nav = () => {
           <Search
             placeholder='Search'
             onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
           />
           <SearchSubmit onClick={handleClick}>
             <i class='fas fa-search'></i>
@@ -162,6 +169,9 @@ const Nav = () => {
         <Links>
           {auth ? (
             <>
+              <MyMovies>
+                <Link to='/'>My Movies</Link>
+              </MyMovies>
               <Logout>
                 <Link to='/' onClick={logOut}>
                   Log out
@@ -186,7 +196,7 @@ const Nav = () => {
           <i class='fas fa-search'></i>
         </SearchSubmit>
       </form>
-    </Container>
+    </OuterContainer>
   );
 };
 

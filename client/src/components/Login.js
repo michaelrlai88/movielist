@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authTrue } from '../redux/authSlice';
 import styled from 'styled-components';
@@ -74,6 +74,7 @@ const SignupButton = styled(Button)`
 
 const Login = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [input, setInput] = useState({
     email: '',
@@ -100,6 +101,7 @@ const Login = () => {
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       dispatch(authTrue());
+      history.goBack();
     }
 
     try {
