@@ -32,7 +32,14 @@ router.post(
       );
       //Status 401 if user already exists
       if (checkUser.rows[0]) {
-        return res.status(401).json('User already exists');
+        return res.status(401).json({
+          errors: [
+            {
+              param: 'duplicate',
+              msg: 'Email address already exists',
+            },
+          ],
+        });
       }
 
       //Else if user does not exist, generate hash

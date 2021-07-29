@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -119,6 +119,7 @@ const Loading = styled.div``;
 
 const Search = () => {
   const auth = useSelector((state) => state.auth.auth);
+  const history = useHistory();
 
   const [titleData, setTitleData] = useState({});
 
@@ -141,11 +142,32 @@ const Search = () => {
           },
         });
         setTitleData(response.data);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error.response.data);
+      }
     };
     setTitleData({});
     searchTitle();
   }, [title]);
+
+  const handleAdd = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:5000/api/v1/movies',
+        headers: { token: localStorage.token },
+        data: {
+          imdb_id: titleData.imdbID,
+          title: titleData.Title,
+          year: titleData.Year,
+          poster: titleData.Poster,
+        },
+      });
+      history.push('/');
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
 
   return (
     <Container>
@@ -170,7 +192,9 @@ const Search = () => {
                 </FirstInfo>
                 {auth ? (
                   <AddMovie>
-                    <AddMovieButton>+ My Movies</AddMovieButton>
+                    <AddMovieButton onClick={handleAdd}>
+                      + My Movies
+                    </AddMovieButton>
                   </AddMovie>
                 ) : null}
               </First>

@@ -39,6 +39,12 @@ const LoginText = styled.div`
   margin-bottom: 20px;
 `;
 
+const ErrorContainer = styled.div`
+  text-align: center;
+  color: ${({ theme }) => theme.error};
+  font-size: 14px;
+`;
+
 const EmailInput = styled(Input)`
   margin-top: 35px;
   width: 100%;
@@ -81,6 +87,8 @@ const Login = () => {
     password: '',
   });
 
+  const [loginError, setLoginError] = useState('');
+
   const { email, password } = input;
 
   const onChange = (e) => {
@@ -89,24 +97,23 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios({
-      method: 'post',
-      url: 'http://localhost:5000/auth/login',
-      data: {
-        email,
-        password,
-      },
-    });
-
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      dispatch(authTrue());
-      history.goBack();
-    }
-
     try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:5000/auth/login',
+        data: {
+          email,
+          password,
+        },
+      });
+
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        dispatch(authTrue());
+        history.goBack();
+      }
     } catch (error) {
-      console.log(error.message);
+      setLoginError(error.response.data);
     }
   };
 
@@ -117,6 +124,7 @@ const Login = () => {
           <Link to='/'>movielist</Link>
         </Logo>
         <LoginText>Log in</LoginText>
+        <ErrorContainer>{loginError}</ErrorContainer>
         <form>
           <EmailInput
             type='email'

@@ -76,9 +76,9 @@ const Signup = () => {
     password: '',
   });
 
-  const [emailError, setEmailError] = useState();
+  const [emailError, setEmailError] = useState('');
 
-  const [passwordError, setPasswordError] = useState();
+  const [passwordError, setPasswordError] = useState('');
 
   const { email, password } = input;
 
@@ -107,9 +107,10 @@ const Signup = () => {
       }
     } catch (error) {
       const { errors } = error.response.data;
+      console.log(errors);
 
       errors.forEach((err) => {
-        if (err.param === 'email') {
+        if (err.param === 'email' || err.param === 'duplicate') {
           setEmailError(err.msg);
         }
         if (err.param === 'password') {
