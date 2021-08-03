@@ -115,6 +115,11 @@ const Genre = styled.div`
   border: solid 1px white;
 `;
 
+const ErrorContainer = styled.div`
+  margin-top: 20px;
+  color: ${({ theme }) => theme.error};
+`;
+
 const Loading = styled.div``;
 
 const Search = () => {
@@ -122,6 +127,7 @@ const Search = () => {
   const history = useHistory();
 
   const [titleData, setTitleData] = useState({});
+  const [addedError, setAddedError] = useState('');
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -161,11 +167,13 @@ const Search = () => {
           title: titleData.Title,
           year: titleData.Year,
           poster: titleData.Poster,
+          plot: titleData.Plot,
+          genre: titleData.Genre,
         },
       });
       history.push('/');
     } catch (error) {
-      console.log(error.response.data);
+      setAddedError(error.response.data);
     }
   };
 
@@ -204,6 +212,7 @@ const Search = () => {
                 <div>Director: {titleData.Director}</div>
                 <div>Actors: {titleData.Actors}</div>
               </Second>
+              <ErrorContainer>{addedError}</ErrorContainer>
             </Info>
           </PosterInfoContainer>
         </TitleResults>

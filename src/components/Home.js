@@ -10,7 +10,7 @@ import { breakpoints, Button, Input } from '../Theme';
 const { sm, md, lg } = breakpoints;
 
 const Container = styled.div`
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding-bottom: 50px;
 
@@ -21,15 +21,18 @@ const Container = styled.div`
 
 const PageTitle = styled.h2``;
 
-const MovieEntry = styled.div``;
+const MovieEntry = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+`;
 
 const Poster = styled.img``;
 
-const Content = styled.div``;
-
-const Info = styled.div`
-  display: flex;
+const Content = styled.div`
+  width: 300px;
 `;
+
+const Info = styled.div``;
 
 const Title = styled.div`
   font-size: 20px;
@@ -38,6 +41,7 @@ const Title = styled.div`
 
 const Year = styled.div`
   font-size: 20px;
+  margin: 0 20px;
   color: ${({ theme }) => theme.secondaryText};
 `;
 
@@ -45,6 +49,28 @@ const Buttons = styled.div``;
 
 const Delete = styled(Button)`
   margin: 10px 20px;
+`;
+
+const Summary = styled.div`
+  font-size: 14px;
+  margin: 0 20px;
+  display: none;
+  flex: 1;
+  ${breakpoints.md} {
+    display: block;
+  }
+`;
+
+const Genre = styled.div`
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 50px;
+  border: solid 1px white;
+`;
+
+const Plot = styled.div`
+  font-size: 14px;
+  margin: 10px 0;
 `;
 
 const Home = () => {
@@ -72,7 +98,6 @@ const Home = () => {
           return 0;
         });
 
-        console.log(response.data);
         setMovies(response.data);
       } catch (error) {
         console.log(error.response.data);
@@ -83,7 +108,6 @@ const Home = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    console.log(id);
     try {
       const response = await axios({
         method: 'delete',
@@ -99,7 +123,7 @@ const Home = () => {
           return true;
         }
       });
-      console.log(newMovies);
+
       setMovies(newMovies);
     } catch (error) {
       console.log(error.response.data);
@@ -113,10 +137,7 @@ const Home = () => {
       {movies
         ? movies.map((movie) => {
             return (
-              <MovieEntry
-                key={movie.id}
-                style={{ display: 'flex', marginBottom: '30px' }}
-              >
+              <MovieEntry key={movie.id}>
                 <Link to={`/search?title=${movie.title}`}>
                   <Poster
                     style={{ height: '120px' }}
@@ -135,6 +156,10 @@ const Home = () => {
                     </Delete>
                   </Buttons>
                 </Content>
+                <Summary>
+                  <Genre>{movie.genre}</Genre>
+                  <Plot>{movie.plot}</Plot>
+                </Summary>
               </MovieEntry>
             );
           })

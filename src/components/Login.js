@@ -69,7 +69,7 @@ const SignupButton = styled(Button)`
   margin-top: 35px;
   width: 100%;
   background-color: ${({ theme }) => theme.secondary};
-  color: ${({ theme }) => theme.buttonText};
+
   border: 1px solid ${({ theme }) => theme.secondary};
 
   &:hover {
