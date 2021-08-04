@@ -141,7 +141,7 @@ const Search = () => {
       try {
         const response = await axios({
           method: 'get',
-          url: 'http://movielist88.herokuapp.com/api/v1/search',
+          url: 'https://movielist88.herokuapp.com/api/v1/search',
           params: {
             title: title,
             id: id,
