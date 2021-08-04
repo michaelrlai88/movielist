@@ -163,7 +163,7 @@ const Nav = () => {
             value={searchInput}
           />
           <SearchSubmit onClick={handleClick}>
-            <i class='fas fa-search'></i>
+            <i className='fas fa-search'></i>
           </SearchSubmit>
         </form>
         <Links>
@@ -191,9 +191,13 @@ const Nav = () => {
         </Links>
       </Content>
       <form>
-        <Search placeholder='Search' />
-        <SearchSubmit>
-          <i class='fas fa-search'></i>
+        <Search
+          placeholder='Search'
+          onChange={(e) => setSearchInput(e.target.value)}
+          value={searchInput}
+        />
+        <SearchSubmit onClick={handleClick}>
+          <i className='fas fa-search'></i>
         </SearchSubmit>
       </form>
     </OuterContainer>
