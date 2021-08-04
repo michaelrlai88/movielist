@@ -140,6 +140,8 @@ const Search = () => {
     process.env.REACT_APP_LOCAL_URL || 'https://movielist88.herokuapp.com';
 
   useEffect(() => {
+    console.log(url);
+
     const searchTitle = async () => {
       try {
         const response = await axios({
