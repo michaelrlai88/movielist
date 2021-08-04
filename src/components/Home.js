@@ -74,6 +74,9 @@ const Plot = styled.div`
 `;
 
 const Home = () => {
+  const url =
+    process.env.REACT_APP_LOCAL_URL || 'https://movielist88.herokuapp.com';
+
   const [movies, setMovies] = useState([]);
   const dispatch = useDispatch();
 
@@ -82,7 +85,7 @@ const Home = () => {
       try {
         const response = await axios({
           method: 'get',
-          url: 'http://localhost:5000/api/v1/movies',
+          url: `${url}/api/v1/movies`,
           headers: { token: localStorage.token },
         });
 

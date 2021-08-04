@@ -79,6 +79,9 @@ const SignupButton = styled(Button)`
 `;
 
 const Login = () => {
+  const url =
+    process.env.REACT_APP_LOCAL_URL || 'https://movielist88.herokuapp.com';
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -100,7 +103,7 @@ const Login = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:5000/auth/login',
+        url: `${url}/auth/login`,
         data: {
           email,
           password,

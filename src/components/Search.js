@@ -136,12 +136,15 @@ const Search = () => {
   const title = query.get('title');
   const id = query.get('id');
 
+  const url =
+    process.env.REACT_APP_LOCAL_URL || 'https://movielist88.herokuapp.com';
+
   useEffect(() => {
     const searchTitle = async () => {
       try {
         const response = await axios({
           method: 'get',
-          url: 'https://movielist88.herokuapp.com/api/v1/search',
+          url: `${url}/api/v1/search`,
           params: {
             title: title,
             id: id,
@@ -160,7 +163,7 @@ const Search = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:5000/api/v1/movies',
+        url: `${url}/api/v1/movies`,
         headers: { token: localStorage.token },
         data: {
           imdb_id: titleData.imdbID,

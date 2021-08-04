@@ -44,6 +44,9 @@ const Content = styled.div`
 `;
 
 const App = () => {
+  const url =
+    process.env.REACT_APP_LOCAL_URL || 'https://movielist88.herokuapp.com';
+
   const auth = useSelector((state) => state.auth.auth);
   const dispatch = useDispatch();
 
@@ -52,7 +55,7 @@ const App = () => {
       try {
         const response = await axios({
           method: 'get',
-          url: 'http://localhost:5000/auth/check',
+          url: `${url}/auth/check`,
           headers: { token: localStorage.token },
         });
 

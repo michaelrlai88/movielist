@@ -69,6 +69,9 @@ const ErrorContainer = styled.div`
 `;
 
 const Signup = () => {
+  const url =
+    process.env.REACT_APP_LOCAL_URL || 'https://movielist88.herokuapp.com';
+
   const dispatch = useDispatch();
 
   const [input, setInput] = useState({
@@ -94,7 +97,7 @@ const Signup = () => {
     try {
       const response = await axios({
         method: 'post',
-        url: 'http://localhost:5000/auth/signup',
+        url: `${url}/auth/signup`,
         data: {
           email,
           password,
