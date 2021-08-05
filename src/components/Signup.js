@@ -95,8 +95,6 @@ const Signup = () => {
     setPasswordError();
 
     try {
-      console.log(url);
-
       const response = await axios({
         method: 'post',
         url: `${url}/auth/signup`,

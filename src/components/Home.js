@@ -114,7 +114,7 @@ const Home = () => {
     try {
       const response = await axios({
         method: 'delete',
-        url: 'http://localhost:5000/api/v1/movies',
+        url: `${url}/api/v1/movies`,
         headers: { token: localStorage.token },
         data: {
           imdb_id: id,
